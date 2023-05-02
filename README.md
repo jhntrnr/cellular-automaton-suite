@@ -55,3 +55,10 @@ https://user-images.githubusercontent.com/90057903/235777896-6ef40375-a6af-4375-
 High Energy mode is identical to Temperature mode, except when a cell's temperature increases, it is set to the maximum temperature rather than incrementing slightly.
 This causes similar dynamic behavior, but tends towards simulations that last a very long time before settling.
 
+## GoLTeN strings
+
+There are four components to a GoLTeN string: Grid Dimensions, Teams, Simulation Mode, and the Cells.
+Everything except for the Cell data is copied from the simulation state as one might expect.
+The cell data is converted to hexadecimal and compressed with run-length encoding to save space.
+
+TODO: Add cell temperatures to GoLTeN string. Currently the simulation expects all cells to start at temperature=1.
