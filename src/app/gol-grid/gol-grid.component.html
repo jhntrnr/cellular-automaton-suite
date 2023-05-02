@@ -1,0 +1,77 @@
+<div class="simulationBody">
+    <div>
+        <label for="simulationMode">Simulation Mode: </label>
+        <select id="simulationMode" [(ngModel)]="simulationMode" (change)="updateSimulationDescription()">
+            <option *ngFor="let mode of simulationModes()" [ngValue]="mode">{{ mode }}</option>
+        </select>
+        <br />
+        <p class="helper-text">{{simulationDescription}}</p>
+        <label for="gridTopology">Wraparound grid? (torus mode): </label>
+        <input type="checkbox" id="gridTopology" [(ngModel)]="wrapAroundGrid">
+        <br />
+        <label for="cellOutlinesHide">Hide Cell Outlines? :</label>
+        <input type="checkbox" id="cellOutlinesHide" [(ngModel)]="hideCellOutlines">
+    </div>
+    <br />
+    <label for="gridWidth">Grid Width: </label>
+    <input type="range" id="gridWidth" min="10" max="100" step="1" [(ngModel)]="width" (ngModelChange)="stopSimulation()" />
+    <input class="small-input" type="text" [(ngModel)]="width" (ngModelChange)="updateWidth(+width)" />
+    <br />
+    <label for="gridHeight">Grid Height: </label>
+    <input type="range" id="gridHeight" min="10" max="100" step="1" [(ngModel)]="height" (ngModelChange)="stopSimulation()" />
+    <input class="small-input" type="text" [(ngModel)]="height" (ngModelChange)="updateHeight(+height)" />
+    <button (click)="applyGridSize()">Apply Grid Size</button>
+    <br />
+    <label for="randomCells">Random Cells per Team: </label>
+    <input type="range" id="randomCells" min="1" max="100" step="1" [(ngModel)]="numberOfRandomPieces" />
+    <input class="small-input" type="text" [(ngModel)]="numberOfRandomPieces" />
+    <button (click)="placeRandomCells()">Place Random Cells</button>
+    <button (click)="clearGrid()">Clear Grid</button>
+    <br />
+    <label for="speed">Simulation step delay (smaller is faster):</label>
+    <input
+        type="range"
+        id="speed"
+        min="0.01"
+        max="1"
+        step="0.01"
+        [(ngModel)]="simulationDelay"
+        (input)="onSimulationDelayChange($event)"
+    />
+    <input class="small-input" type="text" [(ngModel)]="simulationDelay" (input)="onSimulationDelayChange($event)"/>
+    <br />
+    <label for="stopWhenRepeatedState">Stop Sim when repeat state detected? (may use a lot of memory) :</label>
+    <input type="checkbox" id="stopWhenRepeatedState" [(ngModel)]="checkForRepeatStates">
+    <br />
+    <button (click)="toggleSimulation()">{{ isSimulationRunning ? 'Stop' : 'Start' }} Simulation</button>
+    <button (click)="singleStep()">Single Step</button>
+
+    <br />
+    <div *ngFor="let row of grid" class="grid-row">
+        <div
+            *ngFor="let cell of row"
+            class="gol-cell"
+            [ngClass]="{ 'border-cell': !hideCellOutlines }"
+            [style.backgroundColor]="cell.color"
+            (click)="onLeftClick(cell)"
+            (contextmenu)="onRightClick(cell); $event.preventDefault()"
+        ></div>
+    </div>
+    <app-team-creator (teamCreated)="addTeam($event)"></app-team-creator>
+    <div class="team-container">
+        <div class="team" *ngFor="let team of teams; let i = index" [style.display]="i === 0 ? 'none' : 'block'" >
+            Team {{i}}: <input #colorPicker type="color" [value]="team.color" (change)="updateTeamColor(i, colorPicker.value)"/>
+            <br>
+            Current Count: {{teams[i].count}}
+        </div>
+    </div>
+    <div>
+        
+        <input type="text" spellcheck="false" id="goltenInput" [(ngModel)]="goltenString" />
+        <button (click)="generateGoLTeNString()">Generate GoLTeN</button>
+        <button (click)="loadGoLTeNFromString()">Load GoLTeN</button>
+        <br>
+        <button (click)="copyGoLTeNToClipboard()">Copy to clipboard</button>
+        <p>GoLTeN: Game of Life Team Notation. A way to save the simulation state.</p>
+    </div>
+</div>

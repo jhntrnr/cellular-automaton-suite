@@ -1,0 +1,40 @@
+/* gol-grid.component.css */
+.simulationBody{
+    padding: 10px;
+}
+.grid-row {
+    display: flex;
+}
+
+.gol-cell {
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+}
+
+.border-cell {
+    border: 1px solid #cccccc;
+}
+
+.team-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.team {
+    padding: 3px;
+    outline: 1px solid black;
+}
+
+.small-input {
+    width: 5em;
+}
+
+.helper-text {
+    white-space: pre-line;
+}
